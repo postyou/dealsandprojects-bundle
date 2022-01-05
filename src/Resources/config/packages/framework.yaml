@@ -1,0 +1,11 @@
+framework:
+  http_client:
+    scoped_clients:
+      dealsandprojectsApi:
+        base_uri: 'https://api.julitec.com/api/'
+        auth_basic: '%env(DEALSANDPROJECTS_API_USER)%:%env(DEALSANDPROJECTS_API_KEY)%'
+        max_redirects: 10
+        timeout: 10
+        headers:
+          'Content-type': 'application/json'
+          'User-Agent': 'MozillaXYZ/1.0'

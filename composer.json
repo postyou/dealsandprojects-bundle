@@ -1,0 +1,39 @@
+{
+    "name": "postyou/dealsandprojects-bundle",
+    "type": "symfony-bundle",
+    "description": "Deals & Projects API Client",
+    "license": "MIT",
+    "version": "v0.0.1",
+    "authors": [
+        {
+            "name": "Markus Nestmann",
+            "homepage": "https://github.com/MarkejN"
+        },
+        {
+            "name": "POSTYOU Digital- & Filmagentur",
+            "homepage": "https://github.com/postyou"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "symfony/config": "^4.4 || ^5.1",
+        "symfony/dependency-injection": "^4.4 || ^5.1",
+        "symfony/http-kernel": "^4.4 || ^5.1",
+        "symfony/http-client": "^4.4 || ^5.1",
+        "symfony/framework-bundle": "^4.4 || ^5.1",
+        "knpuniversity/oauth2-client-bundle": "^2.8"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Postyou\\DealsAndProjectsBundle\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs": [
+          "vendor/bin/php-cs-fixer fix -v --ansi"
+        ]
+    }
+}
