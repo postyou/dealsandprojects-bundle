@@ -3,7 +3,6 @@
     "type": "symfony-bundle",
     "description": "Deals & Projects API Client",
     "license": "MIT",
-    "version": "v0.0.1",
     "authors": [
         {
             "name": "Markus Nestmann",
