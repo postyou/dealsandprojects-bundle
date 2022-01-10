@@ -15,13 +15,6 @@ class CustomTable extends AbstractApi
 {
     protected string $tableName;
 
-    public function __construct(HttpClientInterface $dealsandprojectsApi, string $tableName)
-    {
-        parent::__construct($dealsandprojectsApi);
-
-        $this->tableName = $tableName;
-    }
-
     public function withTableName(string $tableName): static
     {
         $new = clone $this;
