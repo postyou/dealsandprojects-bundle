@@ -22,6 +22,14 @@ class CustomTable extends AbstractApi
         $this->tableName = $tableName;
     }
 
+    public function withTableName(string $tableName): static
+    {
+        $new = clone $this;
+        $new->tableName = $tableName;
+    
+        return $new;
+    }
+
     public function list(): array
     {
         return $this->getAll($this->getEndpoint(), [
