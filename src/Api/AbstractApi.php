@@ -33,12 +33,12 @@ abstract class AbstractApi
 
     public function read(int $id): object
     {
-        return $this->get("{$this->getEndpoint}()/{$id}");
+        return $this->get("{$this->getEndpoint()}/{$id}");
     }
 
     public function update(int $id, object $requestData): void
     {
-        $this->put("{$this->getEndpoint}()/{$id}", $requestData);
+        $this->put("{$this->getEndpoint()}/{$id}", $requestData);
     }
 
     /**
