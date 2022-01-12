@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-
 class CustomTable extends AbstractApi
 {
     protected string $tableName;
@@ -19,7 +17,7 @@ class CustomTable extends AbstractApi
     {
         $new = clone $this;
         $new->tableName = $tableName;
-    
+
         return $new;
     }
 
