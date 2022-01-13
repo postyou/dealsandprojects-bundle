@@ -31,7 +31,7 @@ abstract class AbstractApi
         $this->post($this->getEndpoint(), $requestData);
     }
 
-    public function read(int $id): object
+    public function read(int $id): array|object
     {
         return $this->get("{$this->getEndpoint()}/{$id}");
     }
@@ -41,10 +41,7 @@ abstract class AbstractApi
         $this->put("{$this->getEndpoint()}/{$id}", $requestData);
     }
 
-    /**
-     * @return array|object
-     */
-    public function get(string $url, array $params = [])
+    public function get(string $url, array $params = []): array|object
     {
         $response = $this->dealsandprojectsApi->request('GET', $url, empty($params) ? [] : [
             'query' => $params,
@@ -64,7 +61,7 @@ abstract class AbstractApi
 
         while (1) {
             $params['Skip'] = $i;
-            $chunk = $this->get($url, $params);
+            $chunk = (array) $this->get($url, $params);
 
             if (empty($chunk)) {
                 break;
@@ -106,10 +103,7 @@ abstract class AbstractApi
 
     abstract protected function getEndpoint(): string;
 
-    /**
-     * @return array|object
-     */
-    private static function getContent(ResponseInterface $response)
+    private static function getContent(ResponseInterface $response): array|object
     {
         if (200 !== $response->getStatusCode()) {
             throw new \Exception('Response status code is different than expected.');
