@@ -11,10 +11,10 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class ContactPerson extends AbstractApi
 {
-    public function readForContact(int $id): object
+    public function readForContact(int $contactId): array|object
     {
         return $this->get($this->getEndpoint(), [
-            'ContactId' => $id,
+            'ContactId' => $contactId,
         ]);
     }
 

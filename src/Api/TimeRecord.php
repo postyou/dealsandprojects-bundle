@@ -11,10 +11,10 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class TimeRecord extends AbstractApi
 {
-    public function listForProject(int $id): array
+    public function listForProject(int $projectId): array
     {
         return $this->getAll($this->getEndpoint(), [
-            'ProjectId' => $id,
+            'ProjectId' => $projectId,
         ]);
     }
 
