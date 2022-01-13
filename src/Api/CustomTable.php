@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
+use Postyou\DealsAndProjectsBundle\Exception\MissingCustomTableNameException;
+
 class CustomTable extends AbstractApi
 {
-    protected string $tableName;
+    protected ?string $tableName = null;
 
     public function withTableName(string $tableName): static
     {
@@ -23,6 +25,10 @@ class CustomTable extends AbstractApi
 
     public function list(): array
     {
+        if (!isset($this->tableName)) {
+            @throw new MissingCustomTableNameException();
+        }
+
         return $this->getAll($this->getEndpoint(), [
             'TableName' => $this->tableName,
         ]);
@@ -30,6 +36,10 @@ class CustomTable extends AbstractApi
 
     public function listForOwner(int $id): array
     {
+        if (!isset($this->tableName)) {
+            @throw new MissingCustomTableNameException();
+        }
+
         return $this->getAll($this->getEndpoint(), [
             'TableName' => $this->tableName,
             'OwnerId' => $id,
