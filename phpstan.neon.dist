@@ -1,0 +1,14 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
+
+rules:
+    - SlamPhpStan\SymfonyFilesystemRule
+    - SlamPhpStan\SymfonyProcessRule
+    - TheCodingMachine\PHPStan\Rules\Exceptions\ThrowMustBundlePreviousExceptionRule
+
+parameters:
+    level: 9
+
+    paths:
+        - src
