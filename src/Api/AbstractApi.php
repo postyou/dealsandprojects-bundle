@@ -21,6 +21,9 @@ abstract class AbstractApi
         $this->dealsandprojectsApi = $dealsandprojectsApi;
     }
 
+    /**
+     * @return object[]
+     */
     public function list(): array
     {
         return $this->getAll($this->getEndpoint());
@@ -31,7 +34,10 @@ abstract class AbstractApi
         $this->post($this->getEndpoint(), $requestData);
     }
 
-    public function read(int $id): array|object
+    /**
+     * @return object|object[]
+     */
+    public function read(int $id): object|array
     {
         return $this->get("{$this->getEndpoint()}/{$id}");
     }
@@ -41,7 +47,12 @@ abstract class AbstractApi
         $this->put("{$this->getEndpoint()}/{$id}", $requestData);
     }
 
-    public function get(string $url, array $params = []): array|object
+    /**
+     * @param array<string,mixed> $params
+     *
+     * @return object|object[]
+     */
+    public function get(string $url, array $params = []): object|array
     {
         $response = $this->dealsandprojectsApi->request('GET', $url, empty($params) ? [] : [
             'query' => $params,
@@ -50,6 +61,11 @@ abstract class AbstractApi
         return self::getContent($response);
     }
 
+    /**
+     * @param array<string,mixed> $params
+     *
+     * @return object[]
+     */
     public function getAll(string $url, array $params = []): array
     {
         $responseData = [];
@@ -103,7 +119,10 @@ abstract class AbstractApi
 
     abstract protected function getEndpoint(): string;
 
-    private static function getContent(ResponseInterface $response): array|object
+    /**
+     * @return object|object[]
+     */
+    private static function getContent(ResponseInterface $response): object|array
     {
         if (200 !== $response->getStatusCode()) {
             throw new \Exception('Response status code is different than expected.');
@@ -111,6 +130,12 @@ abstract class AbstractApi
 
         $responseJson = $response->getContent();
 
-        return json_decode($responseJson, false, 512, JSON_THROW_ON_ERROR);
+        $content = json_decode($responseJson, false, 512, JSON_THROW_ON_ERROR);
+
+        if (!\is_array($content) && !\is_object($content)) {
+            throw new \Exception('Response content is different than expected.');
+        }
+
+        return $content;
     }
 }

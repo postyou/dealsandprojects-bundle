@@ -11,6 +11,9 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class Contact extends AbstractApi
 {
+    /**
+     * @return object[]
+     */
     public function listActiveClients(): array
     {
         return $this->getAll($this->getEndpoint(), [

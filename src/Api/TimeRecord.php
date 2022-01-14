@@ -11,6 +11,9 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class TimeRecord extends AbstractApi
 {
+    /**
+     * @return object[]
+     */
     public function listForProject(int $projectId): array
     {
         return $this->getAll($this->getEndpoint(), [

@@ -23,6 +23,9 @@ class CustomTable extends AbstractApi
         return $new;
     }
 
+    /**
+     * @return object[]
+     */
     public function list(): array
     {
         if (!isset($this->tableName)) {
@@ -34,6 +37,9 @@ class CustomTable extends AbstractApi
         ]);
     }
 
+    /**
+     * @return object[]
+     */
     public function listForOwner(int $id): array
     {
         if (!isset($this->tableName)) {
