@@ -11,7 +11,6 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class Task extends AbstractApi
 {
-
     /**
      * @return object[]
      */
