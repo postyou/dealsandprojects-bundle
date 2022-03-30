@@ -3,5 +3,5 @@ services:
         autowire: true
 
     Postyou\DealsAndProjectsBundle\:
-        resource: ../../
-        exclude: ../../{DependencyInjection,Resources}
+        resource: ../src/
+        exclude: ../src/{DependencyInjection,Resources}

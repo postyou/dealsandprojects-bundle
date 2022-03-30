@@ -20,7 +20,7 @@ class PostyouDealsAndProjectsExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__.'/../../config')
         );
 
         $loader->load('services.yaml');
