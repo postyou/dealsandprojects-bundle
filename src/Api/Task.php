@@ -11,6 +11,17 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class Task extends AbstractApi
 {
+
+    /**
+     * @return object[]
+     */
+    public function listForProject(int $projectId): array
+    {
+        return $this->getAll($this->getEndpoint(), [
+            'ProjectId' => $projectId,
+        ]);
+    }
+
     protected function getEndpoint(): string
     {
         return 'task';
