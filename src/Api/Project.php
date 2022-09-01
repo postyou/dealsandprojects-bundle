@@ -21,19 +21,10 @@ class Project extends AbstractApi
     /**
      * @return object[]
      */
-    public function listOpenProjects(): array
+    public function listWithProjectState($state): array
     {
         return $this->getAll($this->getEndpoint(), [
-            'ProjectState' => 'Offen'
-        ]);
-    }
-    /**
-     * @return object[]
-     */
-    public function listInProgressProjects(): array
-    {
-        return $this->getAll($this->getEndpoint(), [
-            'ProjectState' => 'In Bearbeitung'
+            'ProjectState' => $state
         ]);
     }
 
