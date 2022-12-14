@@ -22,13 +22,15 @@ class CustomTable extends AbstractApi
     }
 
     /**
+     * @param array<string,mixed> $params
+     *
      * @return object[]
      */
-    public function list(): array
+    public function list(array $params = []): array
     {
-        return $this->getAll($this->getEndpoint(), [
-            'TableName' => $this->tableName,
-        ]);
+        $params['TableName'] = $this->tableName;
+
+        return $this->getAll($this->getEndpoint(), $params);
     }
 
     /**

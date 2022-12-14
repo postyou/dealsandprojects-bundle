@@ -11,11 +11,16 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 
 class Project extends AbstractApi
 {
-    public function list(bool $withParticipants = false): array
+    /**
+     * @param array<string,mixed> $params
+     *
+     * @return object[]
+     */
+    public function list(array $params = [], bool $withParticipants = false): array
     {
-        return $this->getAll($this->getEndpoint(), [
-            'WithParticipants' => $withParticipants ? 'true' : 'false',
-        ]);
+        $params['WithParticipants'] = $withParticipants ? 'true' : 'false';
+
+        return $this->getAll($this->getEndpoint(), $params);
     }
 
     /**
