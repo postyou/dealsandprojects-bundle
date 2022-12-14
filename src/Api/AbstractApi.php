@@ -22,11 +22,13 @@ abstract class AbstractApi
     }
 
     /**
+     * @param array<string,mixed> $params
+     *
      * @return object[]
      */
-    public function list(): array
+    public function list(array $params = []): array
     {
-        return $this->getAll($this->getEndpoint());
+        return $this->getAll($this->getEndpoint(), $params);
     }
 
     public function create(object $requestData): void
@@ -34,9 +36,12 @@ abstract class AbstractApi
         $this->post($this->getEndpoint(), $requestData);
     }
 
-    public function read(int $id): object
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function read(int $id, array $params = []): object
     {
-        $data = $this->get("{$this->getEndpoint()}/{$id}");
+        $data = $this->get("{$this->getEndpoint()}/{$id}", $params);
 
         if (!\is_object($data)) {
             throw new \Exception('Response content is different than expected.');
