@@ -124,9 +124,11 @@ abstract class AbstractApi
             'body' => $requestJson,
         ]);
 
-        if (204 !== $response->getStatusCode()) {
-            throw new \Exception('Response status code is different than expected.');
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+            return;
         }
+
+        throw new \Exception('Response status code is different than expected.');
     }
 
     abstract protected function getEndpoint(): string;
