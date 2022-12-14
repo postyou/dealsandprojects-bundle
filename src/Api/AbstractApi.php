@@ -34,12 +34,15 @@ abstract class AbstractApi
         $this->post($this->getEndpoint(), $requestData);
     }
 
-    /**
-     * @return object|object[]
-     */
-    public function read(int $id): object|array
+    public function read(int $id): object
     {
-        return $this->get("{$this->getEndpoint()}/{$id}");
+        $data = $this->get("{$this->getEndpoint()}/{$id}");
+
+        if (!\is_object($data)) {
+            throw new \Exception('Response content is different than expected.');
+        }
+
+        return $data;
     }
 
     public function update(int $id, object $requestData): void
