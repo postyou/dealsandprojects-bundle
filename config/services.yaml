@@ -4,4 +4,4 @@ services:
 
     Postyou\DealsAndProjectsBundle\:
         resource: ../src/
-        exclude: ../src/{DependencyInjection,Resources}
+        exclude: ../src/{DependencyInjection}

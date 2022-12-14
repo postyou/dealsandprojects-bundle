@@ -21,10 +21,10 @@ class Project extends AbstractApi
     /**
      * @return object[]
      */
-    public function listWithProjectState($state): array
+    public function listWithProjectState(string $state): array
     {
         return $this->getAll($this->getEndpoint(), [
-            'ProjectState' => $state
+            'ProjectState' => $state,
         ]);
     }
 

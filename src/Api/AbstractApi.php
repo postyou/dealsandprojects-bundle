@@ -77,10 +77,14 @@ abstract class AbstractApi
 
         while (1) {
             $params['Skip'] = $i;
-            $chunk = (array) $this->get($url, $params);
+            $chunk = $this->get($url, $params);
 
             if (empty($chunk)) {
                 break;
+            }
+
+            if (\is_object($chunk)) {
+                $chunk = [$chunk];
             }
 
             $responseData = array_merge($responseData, $chunk);
@@ -132,8 +136,14 @@ abstract class AbstractApi
 
         $content = json_decode($responseJson, false, 512, JSON_THROW_ON_ERROR);
 
+        // ensure type object|array
         if (!\is_array($content) && !\is_object($content)) {
             throw new \Exception('Response content is different than expected.');
+        }
+
+        // ensure type object[]
+        if (\is_array($content)) {
+            return array_filter($content, fn ($item) => \is_object($item));
         }
 
         return $content;
