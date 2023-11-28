@@ -9,16 +9,22 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 abstract class AbstractApi
 {
     private HttpClientInterface $dealsandprojectsApi;
+    private int $itemsLimit;
 
     public function __construct(HttpClientInterface $dealsandprojectsApi)
     {
         $this->dealsandprojectsApi = $dealsandprojectsApi;
+        $this->itemsLimit = 500;
+    }
+
+    public function setItemsLimit(int $limit){
+        $this->itemsLimit = $limit;
     }
 
     /**
@@ -83,7 +89,7 @@ abstract class AbstractApi
         // D&P Api has a limit of 100 entries per request
         $params['Take'] = 100;
 
-        while (1) {
+        while ($i < $this->itemsLimit) {
             $params['Skip'] = $i;
             $chunk = $this->get($url, $params);
 
