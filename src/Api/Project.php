@@ -9,26 +9,21 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Project>
+ */
 class Project extends AbstractApi
 {
-    /**
-     * @param array<string,mixed> $params
-     *
-     * @return object[]
-     */
     public function list(array $params = [], bool $withParticipants = false): array
     {
         $params['WithParticipants'] = $withParticipants ? 'true' : 'false';
 
-        return $this->getAll($this->getEndpoint(), $params);
+        return $this->list($params);
     }
 
-    /**
-     * @return object[]
-     */
     public function listWithProjectState(string $state): array
     {
-        return $this->getAll($this->getEndpoint(), [
+        return $this->list([
             'ProjectState' => $state,
         ]);
     }

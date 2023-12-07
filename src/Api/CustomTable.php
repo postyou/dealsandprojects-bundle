@@ -28,9 +28,7 @@ class CustomTable extends AbstractApi
      */
     public function list(array $params = []): array
     {
-        $params['TableName'] = $this->tableName;
-
-        return $this->getAll($this->getEndpoint(), $params);
+        return $this->list(['TableName' => $this->tableName]);
     }
 
     /**
@@ -38,7 +36,7 @@ class CustomTable extends AbstractApi
      */
     public function listForOwner(int $id): array
     {
-        return $this->getAll($this->getEndpoint(), [
+        return $this->list([
             'TableName' => $this->tableName,
             'OwnerId' => $id,
         ]);

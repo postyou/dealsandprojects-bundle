@@ -9,41 +9,59 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-use Symfony\Contracts\HttpClient\ResponseInterface;
+use Postyou\DealsAndProjectsBundle\Entities\AbstractEntity;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
+/**
+ * Abstract Api class.
+ *
+ * @template T
+ */
 abstract class AbstractApi
 {
     private HttpClientInterface $dealsandprojectsApi;
     private int $itemsLimit;
 
+    private string $className;
+
     public function __construct(HttpClientInterface $dealsandprojectsApi)
     {
         $this->dealsandprojectsApi = $dealsandprojectsApi;
         $this->itemsLimit = 500;
+        $this->className = str_replace('\\Api\\', '\\Entity\\', static::class);
     }
 
-    public function setItemsLimit(int $limit){
+    public function setItemsLimit(int $limit): void
+    {
         $this->itemsLimit = $limit;
     }
 
     /**
      * @param array<string,mixed> $params
      *
-     * @return object[]
+     * @return (T is undefined ? object[] : T[])
      */
     public function list(array $params = []): array
     {
         return $this->getAll($this->getEndpoint(), $params);
     }
 
+    /**
+     * @param object|T $requestData
+     */
     public function create(object $requestData): void
     {
+        if ($requestData instanceof AbstractEntity) {
+            $requestData = $requestData->toObject();
+        }
         $this->post($this->getEndpoint(), $requestData);
     }
 
     /**
      * @param array<string,mixed> $params
+     *
+     * @return (T is undefined ? object : T)
      */
     public function read(int $id, array $params = []): object
     {
@@ -56,31 +74,41 @@ abstract class AbstractApi
         return $data;
     }
 
+    /**
+     * @param object|T $requestData
+     */
     public function update(int $id, object $requestData): void
     {
+        if ($requestData instanceof AbstractEntity) {
+            $requestData = $requestData->toObject();
+        }
         $this->put("{$this->getEndpoint()}/{$id}", $requestData);
     }
+
+    abstract protected function getEndpoint(): string;
 
     /**
      * @param array<string,mixed> $params
      *
-     * @return object|object[]
+     * @return object|object[]|T|T[]
      */
-    public function get(string $url, array $params = []): object|array
+    private function get(string $url, array $params = []): array|object
     {
         $response = $this->dealsandprojectsApi->request('GET', $url, empty($params) ? [] : [
             'query' => $params,
         ]);
 
-        return self::getContent($response);
+        $content = self::getContent($response);
+
+        return $this->mapToClass($content);
     }
 
     /**
      * @param array<string,mixed> $params
      *
-     * @return object[]
+     * @return object[]|T[]
      */
-    public function getAll(string $url, array $params = []): array
+    private function getAll(string $url, array $params = []): array
     {
         $responseData = [];
 
@@ -106,10 +134,10 @@ abstract class AbstractApi
             $i += 100;
         }
 
-        return $responseData;
+        return $this->mapToClass($responseData);
     }
 
-    public function post(string $url, object $requestData): void
+    private function post(string $url, object $requestData): void
     {
         $requestJson = json_encode($requestData, JSON_THROW_ON_ERROR);
 
@@ -122,7 +150,7 @@ abstract class AbstractApi
         }
     }
 
-    public function put(string $url, object $requestData): void
+    private function put(string $url, object $requestData): void
     {
         $requestJson = json_encode($requestData, JSON_THROW_ON_ERROR);
 
@@ -137,12 +165,10 @@ abstract class AbstractApi
         throw new \Exception('Response status code is different than expected.');
     }
 
-    abstract protected function getEndpoint(): string;
-
     /**
      * @return object|object[]
      */
-    private static function getContent(ResponseInterface $response): object|array
+    private static function getContent(ResponseInterface $response): array|object
     {
         if (200 !== $response->getStatusCode()) {
             throw new \Exception('Response status code is different than expected.');
@@ -159,9 +185,26 @@ abstract class AbstractApi
 
         // ensure type object[]
         if (\is_array($content)) {
-            return array_filter($content, fn ($item) => \is_object($item));
+            $objectsArray = array_filter($content, static fn ($item) => \is_object($item));
         }
 
         return $content;
+    }
+
+    /**
+     * @return object|object[]|T|T[]
+     */
+    private function mapToClass(array|object $object)
+    {
+        if (class_exists($this->className)) {
+            if ('object' === \gettype($object)) {
+                return new $this->className($object);
+            }
+            if (\is_array($object)) {
+                return array_walk($object, fn ($obj) => new $this->className($obj));
+            }
+        } else {
+            return $object;
+        }
     }
 }

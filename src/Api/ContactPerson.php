@@ -14,9 +14,9 @@ class ContactPerson extends AbstractApi
     /**
      * @return object|object[]
      */
-    public function readForContact(int $contactId): object|array
+    public function readForContact(int $contactId): array|object
     {
-        return $this->get($this->getEndpoint(), [
+        return $this->read([
             'ContactId' => $contactId,
         ]);
     }

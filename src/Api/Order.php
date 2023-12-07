@@ -14,9 +14,9 @@ class Order extends AbstractApi
     /**
      * @return object|object[]
      */
-    public function getByProjectId(int $projectId): object|array
+    public function getByProjectId(int $projectId): array|object
     {
-        return $this->get($this->getEndpoint(), [
+        return $this->read([
             'ProjectId' => $projectId,
         ]);
     }

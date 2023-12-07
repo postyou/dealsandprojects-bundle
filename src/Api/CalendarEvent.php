@@ -9,8 +9,13 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-class CalendarEvent extends AbstractApi {
-    protected function getEndpoint(): string {
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\CalendarEvent>
+ */
+class CalendarEvent extends AbstractApi
+{
+    protected function getEndpoint(): string
+    {
         return 'calendarevent';
     }
 }

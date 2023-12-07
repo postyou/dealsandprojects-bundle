@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Task>
+ */
 class Task extends AbstractApi
 {
-    /**
-     * @return object[]
-     */
-    public function listForProject(int $projectId): array
+    public function listForProject(int $projectId)
     {
-        return $this->getAll($this->getEndpoint(), [
+        return $this->list([
             'ProjectId' => $projectId,
         ]);
     }

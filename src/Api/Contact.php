@@ -16,7 +16,7 @@ class Contact extends AbstractApi
      */
     public function listActiveClients(): array
     {
-        return $this->getAll($this->getEndpoint(), [
+        return $this->list([
             'MainCategory' => 'Kunde',
             'IsActive' => 'true',
         ]);
