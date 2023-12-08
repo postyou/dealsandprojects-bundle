@@ -9,50 +9,51 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-class TimeRecord extends AbstractApi
-{
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\TimeRecord>
+ */
+class TimeRecord extends AbstractApi {
     /**
-     * @return object[]
+     * @param integer $projectId
+     * @return \Postyou\DealsAndProjectsBundle\Entities\TimeRecord[]
      */
-    public function listForProject(int $projectId): array
-    {
-        return $this->list([
+    public function listForProject(int $projectId): array {
+        return parent::list([
             'ProjectId' => $projectId,
         ]);
     }
 
     /**
-     * @return object[]
+     * @param integer $taskId
+     * @return \Postyou\DealsAndProjectsBundle\Entities\TimeRecord[]
      */
-    public function listForTask(int $taskId): array
-    {
-        return $this->list([
+    public function listForTask(int $taskId): array {
+        return parent::list([
             'TaskId' => $taskId,
         ]);
     }
 
     /**
-     * @return object[]
+     * @param integer $userId
+     * @return \Postyou\DealsAndProjectsBundle\Entities\TimeRecord[]
      */
-    public function listForUser(int $userId): array
-    {
-        return $this->list([
+    public function listForUser(int $userId): array {
+        return parent::list([
             'UserId' => $userId,
         ]);
     }
 
     /**
-     * @return object[]
+     * @param integer $contactId
+     * @return \Postyou\DealsAndProjectsBundle\Entities\TimeRecord[]
      */
-    public function listForContact(int $contactId): array
-    {
-        return $this->list([
+    public function listForContact(int $contactId): array {
+        return parent::list([
             'ContactId' => $contactId,
         ]);
     }
 
-    protected function getEndpoint(): string
-    {
+    protected function getEndpoint(): string {
         return 'timerecord';
     }
 }

@@ -9,31 +9,31 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-use Postyou\DealsAndProjectsBundle\Entities\AbstractEntity;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Postyou\DealsAndProjectsBundle\Entities\AbstractEntity;
 
 /**
- * Abstract Api class.
+ * Abstract Api class
  *
  * @template T
  */
-abstract class AbstractApi
-{
+abstract class AbstractApi {
     private HttpClientInterface $dealsandprojectsApi;
     private int $itemsLimit;
 
+    /**
+     * @var string $className
+     */
     private string $className;
 
-    public function __construct(HttpClientInterface $dealsandprojectsApi)
-    {
+    public function __construct(HttpClientInterface $dealsandprojectsApi) {
         $this->dealsandprojectsApi = $dealsandprojectsApi;
         $this->itemsLimit = 500;
-        $this->className = str_replace('\\Api\\', '\\Entity\\', static::class);
+        $this->className = "\\" . str_replace('\\Api\\', '\\Entities\\', static::class);
     }
 
-    public function setItemsLimit(int $limit): void
-    {
+    public function setItemsLimit(int $limit) {
         $this->itemsLimit = $limit;
     }
 
@@ -42,19 +42,20 @@ abstract class AbstractApi
      *
      * @return (T is undefined ? object[] : T[])
      */
-    public function list(array $params = []): array
-    {
+    public function list(array $params = []): array {
         return $this->getAll($this->getEndpoint(), $params);
     }
 
     /**
-     * @param object|T $requestData
+     * @param T|object $requestData
+     *
+     * @return void
      */
-    public function create(object $requestData): void
-    {
+    public function create(object $requestData): void {
         if ($requestData instanceof AbstractEntity) {
             $requestData = $requestData->toObject();
         }
+
         $this->post($this->getEndpoint(), $requestData);
     }
 
@@ -63,53 +64,51 @@ abstract class AbstractApi
      *
      * @return (T is undefined ? object : T)
      */
-    public function read(int $id, array $params = []): object
-    {
+    public function read(int $id, array $params = []): object {
         $data = $this->get("{$this->getEndpoint()}/{$id}", $params);
 
         if (!\is_object($data)) {
             throw new \Exception('Response content is different than expected.');
         }
 
-        return $data;
+        return $this->mapToClass($data);
     }
 
     /**
-     * @param object|T $requestData
+     * @param int $id
+     * @param T|object $requestData
+     *
+     * @return void
      */
-    public function update(int $id, object $requestData): void
-    {
+    public function update(int $id, object $requestData): void {
         if ($requestData instanceof AbstractEntity) {
             $requestData = $requestData->toObject();
         }
+
         $this->put("{$this->getEndpoint()}/{$id}", $requestData);
     }
-
-    abstract protected function getEndpoint(): string;
 
     /**
      * @param array<string,mixed> $params
      *
      * @return object|object[]|T|T[]
      */
-    private function get(string $url, array $params = []): array|object
-    {
+    private function get(string $url, array $params = []): object | array {
         $response = $this->dealsandprojectsApi->request('GET', $url, empty($params) ? [] : [
             'query' => $params,
         ]);
 
         $content = self::getContent($response);
 
-        return $this->mapToClass($content);
+        return $content;
     }
 
     /**
      * @param array<string,mixed> $params
      *
-     * @return object[]|T[]
+     * @return T[] | object[]
      */
-    private function getAll(string $url, array $params = []): array
-    {
+    private function getAll(string $url, array $params = []): array {
         $responseData = [];
 
         $i = 0;
@@ -137,8 +136,7 @@ abstract class AbstractApi
         return $this->mapToClass($responseData);
     }
 
-    private function post(string $url, object $requestData): void
-    {
+    private function post(string $url, object $requestData): void {
         $requestJson = json_encode($requestData, JSON_THROW_ON_ERROR);
 
         $response = $this->dealsandprojectsApi->request('POST', $url, [
@@ -150,8 +148,7 @@ abstract class AbstractApi
         }
     }
 
-    private function put(string $url, object $requestData): void
-    {
+    private function put(string $url, object $requestData): void {
         $requestJson = json_encode($requestData, JSON_THROW_ON_ERROR);
 
         $response = $this->dealsandprojectsApi->request('PUT', $url, [
@@ -165,11 +162,12 @@ abstract class AbstractApi
         throw new \Exception('Response status code is different than expected.');
     }
 
+    abstract protected function getEndpoint(): string;
+
     /**
      * @return object|object[]
      */
-    private static function getContent(ResponseInterface $response): array|object
-    {
+    private static function getContent(ResponseInterface $response): object|array {
         if (200 !== $response->getStatusCode()) {
             throw new \Exception('Response status code is different than expected.');
         }
@@ -185,23 +183,21 @@ abstract class AbstractApi
 
         // ensure type object[]
         if (\is_array($content)) {
-            $objectsArray = array_filter($content, static fn ($item) => \is_object($item));
+            return array_filter($content, fn ($item) => \is_object($item));
         }
 
         return $content;
     }
 
     /**
-     * @return object|object[]|T|T[]
+     * @return T|T[]|object[]|object
      */
-    private function mapToClass(array|object $object)
-    {
+    private function mapToClass(object | array $object) {
         if (class_exists($this->className)) {
-            if ('object' === \gettype($object)) {
+            if (gettype($object) == "object") {
                 return new $this->className($object);
-            }
-            if (\is_array($object)) {
-                return array_walk($object, fn ($obj) => new $this->className($obj));
+            } else if (is_array($object)) {
+                return array_map(fn ($obj) => new $this->className($obj), $object);
             }
         } else {
             return $object;

@@ -11,24 +11,24 @@ namespace Postyou\DealsAndProjectsBundle\Entities;
 
 class Project extends AbstractEntity
 {
-    public int $parentProjectId;
-    public string $number;
-    public string $name;
-    public string $longDescription;
-    public string $category;
-    public string $state;
-    public string $customerName;
-    public string $customerId;
-    public string $users;
-    public string $projectManagerName;
-    public string $projectManagerId;
-    public string $targetTime;
-    public float $totalVolume;
-    public string $clientName;
-    public string $clientId;
-    public array $participants;
-    private string $startDate;
-    private string $endDate;
+    public ?int $parentProjectId;
+    public ?string $number;
+    public ?string $name;
+    public ?string $longDescription;
+    public ?string $category;
+    public ?string $state;
+    public ?string $customerName;
+    public ?string $customerId;
+    public ?string $users;
+    public ?string $projectManagerName;
+    public ?string $projectManagerId;
+    public ?float $targetTime;
+    public ?float $totalVolume;
+    public ?string $clientName;
+    public ?string $clientId;
+    public ?array $participants;
+    protected ?string $startDate;
+    protected ?string $endDate;
 
     public function setStartDate(\DateTime $date): void
     {

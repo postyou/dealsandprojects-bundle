@@ -9,41 +9,38 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-class CustomTable extends AbstractApi
-{
+use Error;
+
+class CustomTable extends AbstractApi {
     protected string $tableName;
 
-    public function withTableName(string $tableName): static
-    {
+    public function withTableName(string $tableName): static {
         $new = clone $this;
         $new->tableName = $tableName;
 
         return $new;
     }
 
-    /**
-     * @param array<string,mixed> $params
-     *
-     * @return object[]
-     */
-    public function list(array $params = []): array
-    {
-        return $this->list(['TableName' => $this->tableName]);
+    public function read(int $id, array $params = []): object {
+        if (!$this->tableName) throw new Error("Table name has to be specified before reading from API.");
+        return parent::read($id, $params);
     }
 
-    /**
-     * @return object[]
-     */
-    public function listForOwner(int $id): array
-    {
+    public function list(array $params = []): array {
+        if (!$this->tableName) throw new Error("Table name has to be specified before reading from API.");
+        array_push($params, ['TableName' => $this->tableName]);
+        return $this->list($params);
+    }
+
+    public function listForOwner(int $id): array {
+        if (!$this->tableName) throw new Error("Table name has to be specified before reading from API.");
         return $this->list([
             'TableName' => $this->tableName,
             'OwnerId' => $id,
         ]);
     }
 
-    protected function getEndpoint(): string
-    {
+    protected function getEndpoint(): string {
         return 'customtableentry';
     }
 }

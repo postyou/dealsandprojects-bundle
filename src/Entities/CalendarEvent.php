@@ -7,20 +7,20 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Postyou\DealsAndProjectsBundle\Entities\AbstractEntity;
+namespace Postyou\DealsAndProjectsBundle\Entities;
 
 class CalendarEvent extends AbstractEntity
 {
-    public string $summary;
-    public string $description;
-    public string $eventType;
-    public string $user;
-    public string $userId;
-    public string $project;
-    public string $projectId;
-    public string $startDateTime;
-    public string $endDateTime;
-    public bool $isAllDay;
-    public bool $isPrivate;
-    public string $location;
+    public ?string $summary;
+    public ?string $description;
+    public ?string $eventType;
+    public ?string $user;
+    public ?string $userId;
+    public ?string $project;
+    public ?string $projectId;
+    public ?string $startDateTime;
+    public ?string $endDateTime;
+    public ?bool $isAllDay;
+    public ?bool $isPrivate;
+    public ?string $location;
 }

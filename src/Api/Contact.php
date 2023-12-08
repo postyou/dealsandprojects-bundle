@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Contact>
+ */
 class Contact extends AbstractApi
 {
     /**
@@ -16,7 +19,7 @@ class Contact extends AbstractApi
      */
     public function listActiveClients(): array
     {
-        return $this->list([
+        return parent::list([
             'MainCategory' => 'Kunde',
             'IsActive' => 'true',
         ]);

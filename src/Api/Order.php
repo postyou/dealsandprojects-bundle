@@ -9,20 +9,17 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-class Order extends AbstractApi
-{
-    /**
-     * @return object|object[]
-     */
-    public function getByProjectId(int $projectId): array|object
-    {
-        return $this->read([
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Order>
+ */
+class Order extends AbstractApi {
+    public function getByProjectId(int|string $projectId): array|object {
+        return parent::list([
             'ProjectId' => $projectId,
         ]);
     }
 
-    protected function getEndpoint(): string
-    {
+    protected function getEndpoint(): string {
         return 'order';
     }
 }

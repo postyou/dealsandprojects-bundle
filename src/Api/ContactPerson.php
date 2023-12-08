@@ -9,20 +9,20 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Api;
 
-class ContactPerson extends AbstractApi
-{
+/**
+ * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\ContactPerson>
+ */
+class ContactPerson extends AbstractApi {
     /**
      * @return object|object[]
      */
-    public function readForContact(int $contactId): array|object
-    {
-        return $this->read([
+    public function readForContact(int $contactId): object|array {
+        return parent::list([
             'ContactId' => $contactId,
         ]);
     }
 
-    protected function getEndpoint(): string
-    {
+    protected function getEndpoint(): string {
         return 'contactperson';
     }
 }
