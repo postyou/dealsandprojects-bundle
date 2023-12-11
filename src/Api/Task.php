@@ -14,8 +14,11 @@ namespace Postyou\DealsAndProjectsBundle\Api;
  */
 class Task extends AbstractApi {
 
-    public function listForProject(int $projectId) {
-        return parent::list([
+    /**
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Task[]
+     */
+    public function listForProject(int $projectId): array {
+        return $this->list([
             'ProjectId' => $projectId,
         ]);
     }

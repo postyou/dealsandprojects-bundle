@@ -13,11 +13,9 @@ namespace Postyou\DealsAndProjectsBundle\Api;
  * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\ContactPerson>
  */
 class ContactPerson extends AbstractApi {
-    /**
-     * @return object|object[]
-     */
-    public function readForContact(int $contactId): object|array {
-        return parent::list([
+
+    public function readForContact(int $contactId) {
+        return $this->list([
             'ContactId' => $contactId,
         ]);
     }

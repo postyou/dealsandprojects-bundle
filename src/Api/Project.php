@@ -13,16 +13,25 @@ namespace Postyou\DealsAndProjectsBundle\Api;
  * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Project>
  */
 class Project extends AbstractApi {
+    /**
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Project
+     */
     public function read(int $id, array $params = []): object {
-        array_push($params, ['WithParticipants' => true]);
+        array_merge($params, ['WithParticipants' => true]);
         return parent::read($id, $params);
     }
 
+    /**
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Project[]
+     */
     public function list(array $params = []): array {
-        array_push($params, ['WithParticipants' => true]);
+        array_merge($params, ['WithParticipants' => true]);
         return parent::list($params);
     }
 
+    /**
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Project[]
+     */
     public function listWithProjectState(string $state): array {
         return $this->list([
             'ProjectState' => $state,

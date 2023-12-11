@@ -24,11 +24,11 @@ class Order extends AbstractEntity {
     public ?string $timeOfSupplyEnd;
     public ?string $referenceNumber;
     public ?string $contact;
-    public ?string $contactId;
+    public null|string|int $contactId;
     public ?string $project;
-    public ?string $projectId;
+    public null|string|int $projectId;
     public ?string $person;
-    public ?string $personId;
+    public null|string|int $personId;
     public ?string $deliveryTerms;
     public ?string $deliveryDate;
     public ?string $paymentTerms;
@@ -36,9 +36,9 @@ class Order extends AbstractEntity {
     public ?string $paymentDueOn;
     public ?string $bindingPeriod;
     public ?string $agent;
-    public ?string $agentId;
+    public null|string|int $agentId;
     public ?string $clientName;
-    public ?string $clientId;
+    public null|string|int $clientId;
     public ?array $items;
     public ?string $differingAddress;
     public ?string $templateId;

@@ -192,7 +192,7 @@ abstract class AbstractApi {
     /**
      * @return T|T[]|object[]|object
      */
-    private function mapToClass(object | array $object) {
+    private function mapToClass(object | array $object): object | array {
         if (class_exists($this->className)) {
             if (gettype($object) == "object") {
                 return new $this->className($object);

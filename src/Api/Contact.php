@@ -12,21 +12,19 @@ namespace Postyou\DealsAndProjectsBundle\Api;
 /**
  * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Contact>
  */
-class Contact extends AbstractApi
-{
+class Contact extends AbstractApi {
+
     /**
-     * @return object[]
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Contact[]
      */
-    public function listActiveClients(): array
-    {
-        return parent::list([
+    public function listActiveClients(): array {
+        return $this->list([
             'MainCategory' => 'Kunde',
             'IsActive' => 'true',
         ]);
     }
 
-    protected function getEndpoint(): string
-    {
+    protected function getEndpoint(): string {
         return 'contact';
     }
 }

@@ -13,7 +13,10 @@ namespace Postyou\DealsAndProjectsBundle\Api;
  * @extends AbstractApi<\Postyou\DealsAndProjectsBundle\Entities\Order>
  */
 class Order extends AbstractApi {
-    public function getByProjectId(int|string $projectId): array|object {
+    /**
+     * @return \Postyou\DealsAndProjectsBundle\Entities\Order[]
+     */
+    public function getByProjectId(int|string $projectId): array {
         return parent::list([
             'ProjectId' => $projectId,
         ]);

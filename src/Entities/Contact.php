@@ -11,7 +11,7 @@ namespace Postyou\DealsAndProjectsBundle\Entities;
 
 class Contact extends AbstractEntity {
     public ?string $accountManager;
-    public ?string $accountManagerId;
+    public null|string|int $accountManagerId;
     public ?object $address;
     public ?string $addressType;
     public ?string $city;
@@ -24,7 +24,6 @@ class Contact extends AbstractEntity {
     public ?string $birthday;
     public ?bool $blockedForMailingList;
     public ?object $communication;
-    public ?object $customField;
     public ?string $customerNo;
     public ?string $discountGroup;
     public ?string $firstName;

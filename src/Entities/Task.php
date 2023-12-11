@@ -14,31 +14,31 @@ class Task extends AbstractEntity {
     public ?string $description;
     public ?string $state;
     public ?string $user;
-    public ?string $userId;
+    public null|string|int $userId;
     public ?string $contact;
-    public ?string $contactId;
+    public null|string|int $contactId;
     public ?string $project;
-    public ?string $projectId;
-    public ?string $startDate;
-    public ?string $endDate;
+    public null|string|int $projectId;
+    protected ?string $startDate;
+    protected ?string $endDate;
     public ?string $deadline;
     public ?bool $isBillable;
-    public ?string $activityId;
+    public null|string|int $activityId;
     public ?float $timeEstimateHours;
-
-    public function setStartDate(\DateTime $date): void {
-        $this->startDate = $this->convertFromDateTime($date);
-    }
-
-    public function setEndDate(\DateTime $date): void {
-        $this->endDate = $this->convertFromDateTime($date);
-    }
 
     public function getStartDate(): \DateTime {
         return $this->convertToDateTime($this->startDate);
     }
 
+    public function setStartDate(\DateTime $date): void {
+        $this->startDate = $this->convertFromDateTime($date);
+    }
+
     public function getEndDate(): \DateTime {
         return $this->convertToDateTime($this->endDate);
+    }
+
+    public function setEndDate(\DateTime $date): void {
+        $this->endDate = $this->convertFromDateTime($date);
     }
 }

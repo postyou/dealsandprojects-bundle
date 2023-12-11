@@ -11,7 +11,7 @@ namespace Postyou\DealsAndProjectsBundle\Entities;
 
 class ContactPerson extends AbstractEntity {
     public ?string $contactName;
-    public ?string $contactId;
+    public null|string|int $contactId;
     public ?string $gender;
     public ?string $firstName;
     public ?string $lastName;

@@ -11,22 +11,22 @@ namespace Postyou\DealsAndProjectsBundle\Entities;
 
 class TimeRecord extends AbstractEntity {
     public ?string $activity;
-    public ?string $activityId;
+    public null|string|int $activityId;
     public ?string $contact;
-    public ?string $contactId;
-    private ?string $dateTime;
+    public null|string|int $contactId;
+    protected ?string $dateTime;
     public ?string $description;
     public ?float $duration;
     public ?float $hourlyRate;
     public ?float $hourlyRateInternal;
     public ?float $hourlyRateInternalUser;
     public ?bool $isBillable;
-    public ?string $orderItemId;
+    public null|string|int $orderItemId;
     public ?string $project;
-    public ?string $projectId;
+    public null|string|int $projectId;
     public ?string $settledOn;
-    public ?string $taskId;
+    public null|string|int $taskId;
     public ?float $totalAmount;
     public ?string $user;
-    public ?string $userId;
+    public null|string|int $userId;
 }

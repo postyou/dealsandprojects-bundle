@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Entities;
 
-class Project extends AbstractEntity
-{
+class Project extends AbstractEntity {
     public ?int $parentProjectId;
     public ?string $number;
     public ?string $name;
@@ -18,35 +17,31 @@ class Project extends AbstractEntity
     public ?string $category;
     public ?string $state;
     public ?string $customerName;
-    public ?string $customerId;
+    public null|string|int $customerId;
     public ?string $users;
     public ?string $projectManagerName;
     public ?string $projectManagerId;
     public ?float $targetTime;
     public ?float $totalVolume;
     public ?string $clientName;
-    public ?string $clientId;
+    public null|string|int $clientId;
     public ?array $participants;
     protected ?string $startDate;
     protected ?string $endDate;
 
-    public function setStartDate(\DateTime $date): void
-    {
+    public function setStartDate(\DateTime $date): void {
         $this->startDate = $this->convertFromDateTime($date);
     }
 
-    public function setEndDate(\DateTime $date): void
-    {
+    public function setEndDate(\DateTime $date): void {
         $this->endDate = $this->convertFromDateTime($date);
     }
 
-    public function getStartDate(): \DateTime
-    {
+    public function getStartDate(): \DateTime {
         return $this->convertToDateTime($this->startDate);
     }
 
-    public function getEndDate(): \DateTime
-    {
+    public function getEndDate(): \DateTime {
         return $this->convertToDateTime($this->endDate);
     }
 }
