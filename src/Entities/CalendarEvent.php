@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Postyou\DealsAndProjectsBundle\Entities;
 
+use DateTime;
+
 class CalendarEvent extends AbstractEntity {
     public ?string $summary;
     public ?string $description;
@@ -24,4 +26,38 @@ class CalendarEvent extends AbstractEntity {
     public ?bool $isAllDay;
     public ?bool $isPrivate;
     public ?string $location;
+
+    public function getStartDate(): string {
+        return $this->startDateTime;
+    }
+
+    public function getEndDate(): string {
+        return $this->endDateTime;
+    }
+
+    public function getStartDateTime(): DateTime {
+        return new DateTime($this->startDateTime);
+    }
+
+    public function getEndDateTime(): DateTime {
+        return new DateTime($this->endDateTime);
+    }
+
+    public function setStartDateTime(DateTime $date) {
+        $this->startDateTime = self::createStartDate($date);
+    }
+
+    public function setEndDateTime(DateTime $date) {
+        $this->endDateTime = self::createEndDate($date);
+    }
+
+    public static function createStartDate(DateTime $date): string {
+        $dateStr = $date->format(DATE_W3C);
+        return substr($dateStr, 0, -6) . "Z";
+    }
+
+    public static function createEndDate(DateTime $date): string {
+        $dateStr = $date->modify("+1 day")->modify("-1 minute")->format(DATE_W3C);
+        return substr($dateStr, 0, -6) . "Z";
+    }
 }

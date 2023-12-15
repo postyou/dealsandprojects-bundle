@@ -19,9 +19,11 @@ abstract class AbstractEntity {
 
     protected static string $dateFormat = "Y-m-d\TH:i:s";
 
-    public function __construct(object $data) {
-        foreach ($data as $key => $value) {
-            $this->{lcfirst($key)} = $value;
+    public function __construct(?object $data = null) {
+        if ($data) {
+            foreach ($data as $key => $value) {
+                $this->{lcfirst($key)} = $value;
+            }
         }
     }
 
